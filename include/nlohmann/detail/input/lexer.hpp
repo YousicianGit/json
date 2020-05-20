@@ -123,9 +123,13 @@ class lexer
     JSON_HEDLEY_PURE
     static char get_decimal_point() noexcept
     {
+#if LOCALECONV_NOT_IMPLEMENTED
+        return '.';
+#else
         const auto loc = localeconv();
         assert(loc != nullptr);
         return (loc->decimal_point == nullptr) ? '.' : *(loc->decimal_point);
+#endif
     }
 
     /////////////////////
